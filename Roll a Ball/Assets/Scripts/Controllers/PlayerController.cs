@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     // Скорость, с которой движется игрок.
     public float speed = 0.0f;
 
+    public ParticleSystem pickUp;
+
     private void Start()
     {
         // Достаньте и сохраните компонент Rigidbody, прикрепленный к проигрывателю.
@@ -40,5 +42,15 @@ public class PlayerController : MonoBehaviour
 
         // Приложите усилие к жесткому телу, чтобы переместить игрока.
         _rb.AddForce(movement * speed);
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("PickUp"))
+        {
+            Destroy(other.gameObject);
+            Instantiate(pickUp);
+        }
     }
 }
