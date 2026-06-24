@@ -4,11 +4,11 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     // Жесткое тело игрока.
-    private Rigidbody rb;
+    private Rigidbody _rb;
 
     // Перемещение по осям X и Y.
-    private float movementX;
-    private float movementY;
+    private float _movementX;
+    private float _movementY;
 
     // Скорость, с которой движется игрок.
     public float speed = 0.0f;
@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         // Достаньте и сохраните компонент Rigidbody, прикрепленный к проигрывателю.
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
     }
 
 
@@ -27,8 +27,8 @@ public class PlayerController : MonoBehaviour
         Vector2 movementVector = movememtValue.Get<Vector2>();
 
         // Сохраните X и Y компоненты движения.
-        movementX = movementVector.x;
-        movementY = movementVector.y;
+        _movementX = movementVector.x;
+        _movementY = movementVector.y;
     }
 
 
@@ -36,9 +36,9 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         // Создайте трехмерный вектор движения, используя входные данные X и Y.
-        Vector3 movement = new Vector3(movementX, 0.0f, movementY);
+        Vector3 movement = new Vector3(_movementX, 0.0f, _movementY);
 
         // Приложите усилие к жесткому телу, чтобы переместить игрока.
-        rb.AddForce(movement * speed);
+        _rb.AddForce(movement * speed);
     }
 }
