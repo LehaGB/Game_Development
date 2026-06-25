@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,15 +11,32 @@ public class PlayerController : MonoBehaviour
     private float _movementX;
     private float _movementY;
 
+    // Переменная для отслеживания собранных объектов PickUp.
+    private int count;
+
     // Скорость, с которой движется игрок.
     public float speed = 0.0f;
 
-    public ParticleSystem pickUp;
+    // Текстовый компонент пользовательского интерфейса для отображения количества
+    // собранных объектов PickUp.
+    public TextMeshProUGUI countText;
+
+    // Объект пользовательского интерфейса для отображения текста с выигрышной комбинацией.
+    public GameObject winTextObject;
 
     private void Start()
     {
         // Достаньте и сохраните компонент Rigidbody, прикрепленный к проигрывателю.
         _rb = GetComponent<Rigidbody>();
+
+        // Инициализируйте счетчик равным нулю.
+        count = 0;
+
+        // Обновите отображение количества.
+        SetCountText();
+
+        // Изначально текст с выигрышной комбинацией был неактивным.
+        winTextObject.SetActive(false);
     }
 
 
@@ -47,10 +65,32 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Проверьте, есть ли у объекта, с которым столкнулся игрок, тег PickUp.
         if (other.gameObject.CompareTag("PickUp"))
         {
+            // Деактивируйте столкнувшийся объект (чтобы он исчез).(удаление)
             Destroy(other.gameObject);
-            Instantiate(pickUp);
+
+            // Увеличьте количество собранных объектов PickUp.
+            count++;
+
+            // Обновите отображение количества.
+            SetCountText();
+        }
+    }
+
+
+    // Функция для обновления отображаемого количества собранных объектов PickUp.
+    private void SetCountText()
+    {
+        // Обновите текст с указанием текущего количества.
+        countText.text = $"Count: {count}";
+
+        // Проверьте, достигло ли количество очков условия выигрыша или превысило его.
+        if (count >= 13)
+        {
+            // Отобразите текст выигрыша.
+            winTextObject.SetActive(true);
         }
     }
 }
