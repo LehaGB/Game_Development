@@ -79,6 +79,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // Уничтожьте текущий объект.
+            Destroy(gameObject);
+
+            // // Обновите текст в поле winText, чтобы отображалось «Вы проиграли!»
+            winTextObject.gameObject.SetActive(true);
+            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+        }
+    }
+
 
     // Функция для обновления отображаемого количества собранных объектов PickUp.
     private void SetCountText()
@@ -87,10 +100,13 @@ public class PlayerController : MonoBehaviour
         countText.text = $"Count: {count}";
 
         // Проверьте, достигло ли количество очков условия выигрыша или превысило его.
-        if (count >= 13)
+        if (count >= 5)
         {
             // Отобразите текст выигрыша.
             winTextObject.SetActive(true);
+
+            // Уничтожьте вражеский игровой объект.
+            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
         }
     }
 }
