@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class Obstacle : MonoBehaviour
 {
     [SerializeField] private float minSize = 0.5f;
@@ -25,6 +26,6 @@ public class Obstacle : MonoBehaviour
         rb.AddForce(randomDirection * randomSpeed);
 
         float randomTorque = Random.Range(-maxSpinSped, maxSpinSped) / randomSize;
-        rb.AddTorque(randomTorque * Time.deltaTime);
+        rb.AddTorque(randomTorque);
     }
 }
